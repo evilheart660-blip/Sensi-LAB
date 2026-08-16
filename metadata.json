@@ -1,0 +1,7 @@
+{
+  "name": "Hacker LVL Sensitivity Lab",
+  "description": "Professional sensitivity analysis, 200-scale tuning engine, DPI recommendations, and aim drills for mobile battle royale games.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
