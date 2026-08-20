@@ -1,0 +1,40 @@
+name: Build Sensi-LAB APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Sensi-LAB
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Prepare Gradle wrapper
+        run: chmod +x ./gradlew
+
+      - name: Remove Termux-only AAPT2 override
+        run: |
+          sed -i '/^android\.aapt2FromMavenOverride=/d' gradle.properties
+          echo "Current gradle.properties:"
+          cat gradle.properties
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sensi-LAB-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
